@@ -18,7 +18,7 @@ abstract class BaseRemoteService {
           (response.data as Map<String, dynamic>)['status_code'] !=
               HttpStatus.ok) {
         // TODO
-        print(response);
+        print(response.statusCode);
       }
 
       return response;

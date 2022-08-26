@@ -11,7 +11,7 @@ class PublicRemoteDataSourceImpl extends BaseRemoteService
 
   @override
   Future<Upcoming> getUpcomingService(String type) async {
-    var endpoint = "${DioProvider.baseUrl}$type/upcoming?api_key=$apikey";
+    var endpoint = "${DioProvider.baseUrl}$type/popular?api_key=$apikey";
     var dioCall = dioClient.get(endpoint);
 
     try {
