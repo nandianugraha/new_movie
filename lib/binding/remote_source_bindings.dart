@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
-import 'package:new_movie_flutter/data/remote/public_remote_data_source.dart';
-import 'package:new_movie_flutter/data/remote/public_remote_data_source_impl.dart';
+import 'package:new_movie_flutter/data/remote/private/private_remote_data_source.dart';
+import 'package:new_movie_flutter/data/remote/private/private_remote_data_source_impl.dart';
+import 'package:new_movie_flutter/data/remote/public/public_remote_data_source.dart';
+import 'package:new_movie_flutter/data/remote/public/public_remote_data_source_impl.dart';
 
 class RemoteSourceBindings implements Bindings {
   @override
@@ -8,6 +10,10 @@ class RemoteSourceBindings implements Bindings {
     Get.lazyPut<PublicRemoteDataSource>(
       () => PublicRemoteDataSourceImpl(),
       tag: (PublicRemoteDataSource).toString(),
+    );
+    Get.lazyPut<PrivateRemoteDataSource>(
+      () => PrivateRemoteDataSourceImpl(),
+      tag: (PrivateRemoteDataSource).toString(),
     );
   }
 }
