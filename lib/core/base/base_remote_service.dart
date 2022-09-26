@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:new_movie_flutter/config/build_config.dart';
 import 'package:new_movie_flutter/network/dio_provider.dart';
 import 'package:new_movie_flutter/network/error_handlers.dart';
 import 'package:new_movie_flutter/network/exceptions/base_exception.dart';
+import 'package:new_movie_flutter/util/ext.dart';
 
 abstract class BaseRemoteService {
   Dio get dioClient => DioProvider.dioWithHeaderToken;
@@ -13,12 +16,18 @@ abstract class BaseRemoteService {
   Future<Response<T>> callApiWithErrorParser<T>(Future<Response<T>> api) async {
     try {
       Response<T> response = await api;
+      var data = response.data as Map<String, dynamic>;
 
-      if (response.statusCode != HttpStatus.ok ||
-          (response.data as Map<String, dynamic>)['status_code'] !=
-              HttpStatus.ok) {
-        // TODO
-        print(response.statusCode);
+      if (data['status_code'] != null) {
+        if (data['status_code'] != HttpStatus.ok) {
+          // TODO
+          showSnackbar(data['notif_msg']);
+        }
+      } else {
+        if (response.statusCode != HttpStatus.ok) {
+          //
+          showSnackbar('Error');
+        }
       }
 
       return response;
