@@ -30,7 +30,7 @@ class MainScreenController extends BaseController {
   var selectedCard = 100.obs;
   var id = ''.obs;
 
-  final TextEditingController _controllerPhone = TextEditingController();
+  final TextEditingController controllerPhone = TextEditingController();
 
   List<ResKapal>? kapalModel = RxList();
   Rx<String> name = ''.obs;
@@ -39,7 +39,9 @@ class MainScreenController extends BaseController {
   Rx<String> tokenKey = ''.obs;
 
   Location location = Location();
-  LocationData? _currentPosition;
+  LocationData? currentPosition;
+
+  late StreamSubscription<LocationData> locationSubscription;
 
   getData() async {
     name.value = await Preferences.getNama();
@@ -208,7 +210,7 @@ class MainScreenController extends BaseController {
                   Padding(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).viewInsets.bottom),
-                    child: textField(Icons.phone, 'No. HP', _controllerPhone,
+                    child: textField(Icons.phone, 'No. HP', controllerPhone,
                         TextInputType.phone, Colors.black),
                   ),
                   Expanded(
@@ -231,7 +233,7 @@ class MainScreenController extends BaseController {
                             style: TextStyle(fontSize: 15),
                           ),
                           onPressed: () {
-                            if (_controllerPhone.text.isEmpty) {
+                            if (controllerPhone.text.isEmpty) {
                               Toast.show('Masukan Nomor HP terlebih dahulu',
                                   gravity: Toast.bottom,
                                   duration: Toast.lengthShort);
@@ -264,8 +266,9 @@ class MainScreenController extends BaseController {
       }
     }
 
-    _currentPosition = await location.getLocation();
-    location.onLocationChanged.listen((LocationData currentLocation) {
+    currentPosition = await location.getLocation();
+    locationSubscription =
+        location.onLocationChanged.listen((LocationData currentLocation) {
       print(currentLocation);
     });
 
@@ -282,9 +285,9 @@ class MainScreenController extends BaseController {
     callDataService(
         _repositoryPrivate.setKapalPhone(
             idKapal.toString(),
-            _currentPosition!.longitude.toString(),
-            _currentPosition!.latitude.toString(),
-            _controllerPhone.value.text),
+            currentPosition!.longitude.toString(),
+            currentPosition!.latitude.toString(),
+            controllerPhone.value.text),
         onError: ((exception) => isLoading.value = false),
         onStart: () => isLoading.value = true,
         onSuccess: _handleSetKapalPhone);
@@ -297,10 +300,10 @@ class MainScreenController extends BaseController {
     } else {
       callDataService(
           _repositoryPrivate.setKapalLocation(
-              id.toString(),
-              _currentPosition!.longitude.toString(),
-              _currentPosition!.latitude.toString(),
-              ''),
+              id: id.toString(),
+              long: currentPosition!.longitude.toString(),
+              lat: currentPosition!.latitude.toString(),
+              status: ''),
           onError: ((exception) => isLoading.value = false),
           onStart: () => isLoading.value = true,
           onSuccess: _handleSetKapalLocation);
@@ -315,6 +318,7 @@ class MainScreenController extends BaseController {
 
   void _handleKapalHome(BaseResponseModel response) async {
     isLoading.value = false;
+    ToastContext().init(Get.context!);
 
     List list = jsonDecode(response.data!);
     kapalModel?.clear();
@@ -327,11 +331,12 @@ class MainScreenController extends BaseController {
       update();
       if (kapalModel!.isEmpty) {
         Preferences().logout();
+
         Future.delayed(const Duration(seconds: 3)).then((value) {
           isLoading.value = false;
-
+          showSnackbar('Maaf anda tidak memiliki kapal yang tersedia');
           Preferences.getUserId().then((value) => print(value));
-          Get.offNamed(MyRouter.splashscreen);
+          Get.offAllNamed(MyRouter.splashscreen);
         });
       }
     }
@@ -339,4 +344,10 @@ class MainScreenController extends BaseController {
   }
 
   void _handleSetKapalLocation(BaseResponseModel response) {}
+
+  @override
+  void dispose() {
+    locationSubscription.cancel();
+    super.dispose();
+  }
 }

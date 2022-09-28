@@ -9,7 +9,7 @@ import 'package:new_movie_flutter/screen/auth/login/login_controller.dart';
 class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut<LoginController>(() => LoginController());
+    Get.put(LoginController());
 
     return SafeArea(
         child: SingleChildScrollView(

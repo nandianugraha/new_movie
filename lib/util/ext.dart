@@ -108,6 +108,66 @@ Widget textField(IconData icon, String name, TextEditingController controller,
   );
 }
 
+Widget dialogPopUp(
+    {String? title,
+    String? buttonText,
+    String? content,
+    Function()? onTap,
+    bool? isSuccess}) {
+  Color color = isSuccess! ? Colors.greenAccent : Colors.red;
+  return AlertDialog(
+    backgroundColor: Colors.white,
+    content: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                height: 60,
+                width: 60,
+                margin: const EdgeInsets.only(top: 40),
+                child: Icon(
+                    isSuccess ? Icons.check : Icons.warning_amber_outlined),
+              ),
+              Container(
+                  margin: const EdgeInsets.only(top: 8),
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(Get.context!).size.width,
+                  child: Text(title!,
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: color))),
+              Container(
+                  margin: const EdgeInsets.only(top: 8),
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(Get.context!).size.width,
+                  child: Text(content!,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ))),
+              Container(
+                margin: const EdgeInsets.only(bottom: 20),
+                child: RaisedButton(
+                  onPressed: onTap,
+                  color: color,
+                  child: Text(
+                    buttonText ?? 'Ok',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ])),
+    contentPadding: const EdgeInsets.all(0),
+    insetPadding: const EdgeInsets.all(20),
+  );
+}
+
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {

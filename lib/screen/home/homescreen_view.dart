@@ -188,7 +188,8 @@ class HomescreenView extends GetView<HomeController> {
   Widget banner(String assets) {
     return GestureDetector(
       onTap: () {
-        // AppRouter.push(context, DetailImage(assets, false));
+        Get.toNamed(MyRouter.detailimagescreen,
+            arguments: {'urlImage': assets, 'isNet': false});
       },
       child: Container(
         margin: const EdgeInsets.all(10),
@@ -232,18 +233,19 @@ class HomescreenView extends GetView<HomeController> {
                   offset: const Offset(4, 8),
                 ),
               ]),
-          child: Image.network(
-              '${DioProvider.baseUrl}doc/informasi_bantuan/images/${info.namaFile}',
-              width: 200,
-              fit: BoxFit.cover),
-          // child: GestureDetector(
-          //   onTap: () {
-          //     AppRouter.push(
-          //         context,
-          //         DetailImage(
-          //             '${Constant.BASE_IMAGE}informasi_bantuan/images/${infoModel.namaFile}', true));
-          //   },
-          //   child: UserInterface(context).imageCache('${Constant.BASE_IMAGE}informasi_bantuan/images/${infoModel.namaFile}', width: 200, box: BoxFit.cover),
+          child: GestureDetector(
+            onTap: () {
+              Get.toNamed(MyRouter.detailimagescreen, arguments: {
+                'urlImage':
+                    '${DioProvider.baseUrl}doc/informasi_bantuan/images/${info.namaFile}',
+                'isNet': true
+              });
+            },
+            child: Image.network(
+                '${DioProvider.baseUrl}doc/informasi_bantuan/images/${info.namaFile}',
+                width: 200,
+                fit: BoxFit.cover),
+          ),
         ),
         Container(
           margin: const EdgeInsets.only(bottom: 8),
@@ -283,7 +285,10 @@ class HomescreenView extends GetView<HomeController> {
   Widget menuKategori(ResCategory category) {
     return GestureDetector(
       onTap: () {
-        // AppRouter.push(context, KategoriScreen(kategoriModel.kategoriId.toString(), kategoriModel.kategoriNama));
+        Get.toNamed(MyRouter.kategoriscreen, arguments: {
+          'kategoriId': category.kategoriId.toString(),
+          'kategoriJudul': category.kategoriNama.toString()
+        });
       },
       child: Container(
         margin: const EdgeInsets.all(8),

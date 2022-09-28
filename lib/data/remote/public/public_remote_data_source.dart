@@ -5,4 +5,5 @@ abstract class PublicRemoteDataSource {
   Future<BaseResponseModel> getLandingPage(
       String userId, String token, String tokenKey);
   Future<ResCuaca> getCuaca();
+  Future<BaseResponseModel> getInfoByKategoriId(String kategoriId);
 }

@@ -12,4 +12,6 @@ abstract class PrivateRemoteDataSource {
   Future<BaseResponseModel> setKapalLocation(
       String id, String lat, String long, String status);
   Future<BaseResponseModel> logout(String kapalId);
+  Future<BaseResponseModel> saveProfile(
+      String userId, String noHp, String name, String alamat);
 }

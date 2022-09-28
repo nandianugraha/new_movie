@@ -8,8 +8,10 @@ abstract class PrivateRepository {
   Future<BaseResponseModel> getUser(ResLogin resLogin);
   Future<BaseResponseModel> getKapalHome(ResLogin resLogin);
   Future<BaseResponseModel> setKapalLocation(
-      String id, String lat, String long, String status);
+      {String id, String lat, String long, String status});
   Future<BaseResponseModel> setKapalPhone(
       String id, String lat, String long, String phone);
   Future<BaseResponseModel> logout(String kapalId);
+  Future<BaseResponseModel> saveProfile(
+      String userId, String noHp, String name, String alamat);
 }

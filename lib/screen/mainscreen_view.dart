@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:new_movie_flutter/routes/my_router.dart';
 import 'package:new_movie_flutter/screen/cuaca/cuaca_controller.dart';
 import 'package:new_movie_flutter/screen/mainscreen_controller.dart';
+import 'package:new_movie_flutter/util/preferences.dart';
+import 'package:toast/toast.dart';
 
 import '../r.dart';
 
@@ -12,6 +13,7 @@ class MainScreenView extends GetView<MainScreenController> {
 
   @override
   Widget build(BuildContext context) {
+    ToastContext().init(context);
     Get.put(CuacaController());
     return Obx((() => Scaffold(
         appBar: controller.pos.value == 0
@@ -102,24 +104,20 @@ class MainScreenView extends GetView<MainScreenController> {
             width: 80,
             height: 80,
             child: FloatingActionButton(
-              onPressed: () {
-                // Preferences.getKapalId().then((valueKapalId) {
-                //   print(valueKapalId);
-                //   if (valueKapalId == '' || valueKapalId == 'null') {
-                //     Toast.show('Anda belum memilih kapal',
-                //         duration: Toast.lengthShort, gravity: Toast.bottom);
-                //   } else {
-                //     AppRouter.push(
-                //         context,
-                //         SOSScreen(
-                //           kapalId: valueKapalId,
-                //           lat: _currentPosition?.latitude.toString(),
-                //           long: _currentPosition?.longitude.toString(),
-                //           noHP: _controllerPhone.text.toString(),
-                //         ));
-                //     // logout();
-                //   }
-                // });
+              onPressed: () async {
+                var kapalId = await Preferences.getKapalId();
+                var noHp = await Preferences.getTelp();
+                if (kapalId == '' || kapalId == 'null') {
+                  Toast.show('Anda belum memilih kapal',
+                      duration: Toast.lengthShort, gravity: Toast.bottom);
+                } else {
+                  Get.toNamed(MyRouter.sosscreen, arguments: {
+                    'kapalId': kapalId.toString(),
+                    'lat': controller.currentPosition?.latitude.toString(),
+                    'long': controller.currentPosition?.longitude.toString(),
+                    'noHp': noHp.toString()
+                  });
+                }
               },
               tooltip: 'DARURAT',
               backgroundColor: Colors.red,
@@ -130,14 +128,7 @@ class MainScreenView extends GetView<MainScreenController> {
                     fontSize: 30,
                     color: Colors.black),
               ),
-            )
-            // child: DefaultText(
-            //   textLabel: 'SOS',
-            //   fontWeight: FontWeight.bold,
-            //   colorsText: Colors.black,
-            //   sizeText: 30,
-            // )),
-            ),
+            )),
         body: Obx((() => Stack(
               children: [
                 Image.asset(R.images_background_onboard),

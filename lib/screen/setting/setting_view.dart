@@ -6,6 +6,7 @@ import 'package:new_movie_flutter/core/base/base_view.dart';
 import 'package:new_movie_flutter/core/texts.dart';
 import 'package:new_movie_flutter/data/repository/private/private_repository.dart';
 import 'package:new_movie_flutter/r.dart';
+import 'package:new_movie_flutter/routes/my_router.dart';
 import 'package:new_movie_flutter/screen/setting/setting_controller.dart';
 
 class SettingView extends BaseView<SettingController> {
@@ -127,9 +128,14 @@ class SettingView extends BaseView<SettingController> {
                             ],
                           ),
                         ),
-                        const Icon(
-                          Icons.person_outline_outlined,
-                          size: 80,
+                        const CircleAvatar(
+                          radius: 40,
+                          backgroundColor: Colors.cyan,
+                          foregroundColor: Colors.white,
+                          child: Icon(
+                            Icons.person,
+                            size: 60,
+                          ),
                         )
                       ],
                     ),
@@ -139,10 +145,9 @@ class SettingView extends BaseView<SettingController> {
                     color: Colors.grey,
                   ),
                   content("Profile", "", () {
-                    // AppRouter.push(context, ProfileScreen())
-                    //     .then((value) {
-                    //   reset();
-                    // });
+                    Get.toNamed(MyRouter.profilepage)?.then((value) {
+                      controller.reset();
+                    });
                   }, Icons.person_outline),
                   content(
                       "Change Password", "", () {}, Icons.lock_open_outlined),

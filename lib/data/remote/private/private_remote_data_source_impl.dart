@@ -86,7 +86,7 @@ class PrivateRemoteDataSourceImpl extends BaseRemoteService
       String id, String lat, String long, String status) {
     var endpoint = '${DioProvider.baseUrl}api/setKapalAndLocation';
     var dioCall = dioClient.post(endpoint,
-        data: {'kapal_id': id, 'long': long, 'lat': lat, 'status': ''});
+        data: {'kapal_id': id, 'long': long, 'lat': lat, 'sos_st': status});
 
     try {
       return callApiWithErrorParser(dioCall)
@@ -101,6 +101,25 @@ class PrivateRemoteDataSourceImpl extends BaseRemoteService
     var endpoint = '${DioProvider.baseUrl}api/logout';
     var dioCall =
         dioClient.post(endpoint, data: {'kapal_id': kapalId.toString()});
+
+    try {
+      return callApiWithErrorParser(dioCall)
+          .then((response) => _parseResponse(response));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<BaseResponseModel> saveProfile(
+      String userId, String noHp, String name, String alamat) {
+    var endpoint = '${DioProvider.baseUrl}api/editProfile';
+    var dioCall = dioClient.post(endpoint, data: {
+      'user_id': userId,
+      'no_hp': noHp,
+      'nama_lengkap': name,
+      'alamat': alamat
+    });
 
     try {
       return callApiWithErrorParser(dioCall)

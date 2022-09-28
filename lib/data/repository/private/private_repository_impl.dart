@@ -30,12 +30,6 @@ class PrivateRepositoryImpl extends PrivateRepository {
   }
 
   @override
-  Future<BaseResponseModel> setKapalLocation(
-      String id, String lat, String long, String status) {
-    return _remoteSource.setKapalLocation(id, lat, long, status);
-  }
-
-  @override
   Future<BaseResponseModel> setKapalPhone(
       String id, String lat, String long, String phone) {
     return _remoteSource.setKapalPhone(id, lat, long, phone);
@@ -44,5 +38,17 @@ class PrivateRepositoryImpl extends PrivateRepository {
   @override
   Future<BaseResponseModel> logout(String kapalId) {
     return _remoteSource.logout(kapalId);
+  }
+
+  @override
+  Future<BaseResponseModel> saveProfile(
+      String userId, String noHp, String name, String alamat) {
+    return _remoteSource.saveProfile(userId, noHp, name, alamat);
+  }
+
+  @override
+  Future<BaseResponseModel> setKapalLocation(
+      {String? id, String? lat, String? long, String? status}) {
+    return _remoteSource.setKapalLocation(id!, lat!, long!, status!);
   }
 }

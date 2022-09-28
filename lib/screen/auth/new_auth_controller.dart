@@ -2,45 +2,26 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_movie_flutter/binding/initial_binding.dart';
 import 'package:new_movie_flutter/routes/my_router.dart';
-import 'package:new_movie_flutter/splash_page.dart';
 import 'package:new_movie_flutter/util/preferences.dart';
 import 'package:new_movie_flutter/widget/confirmation_dialog.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class SplashController extends GetxController
-    with GetSingleTickerProviderStateMixin {
-  late AnimationController animationController;
-  late Animation<double> animation;
+class NewAuthController extends GetxController {
+
+  
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
 
-  bool isLoading = false;
-
-  @override
-  void onInit() {
-    animationInitilization();
-    super.onInit();
-  }
-
-  animationInitilization() {
-    animationController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 2));
-    animation =
-        CurvedAnimation(parent: animationController, curve: Curves.easeOut);
-    animation.addListener(() => update());
-    animationController.forward();
-    animationController.addListener(() {
-      if (animation.isCompleted) _goRouter();
-    });
-  }
+  var isLoading = false.obs;
 
   void asyncPermission() {
     _requestPermission().then((value) {
       if (value) {
-        isLoading = false;
+        isLoading.value = false;
         // Future.delayed(Duration(seconds: 2)).then((value) {
         //   _goRouter();
         // });
@@ -107,14 +88,4 @@ class SplashController extends GetxController
   }
 
   // void goHome() => Get.offNamed(MyRouter.homepage);
-  void _goRouter() {
-    Preferences.getToken().then((value) {
-      if (value.isEmpty || value == 'null') {
-        isLoading = false;
-      } else {
-        // AppRouter.makeFirst(context, MainScreen());
-        Get.offNamed(MyRouter.mainscreen);
-      }
-    });
-  }
 }

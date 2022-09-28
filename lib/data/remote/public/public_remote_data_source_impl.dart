@@ -19,7 +19,7 @@ class PublicRemoteDataSourceImpl extends BaseRemoteService
 
     try {
       return callApiWithErrorParser(dioCall)
-          .then((response) => _parseLandingPage(response));
+          .then((response) => _parseResponse(response));
     } catch (e) {
       rethrow;
     }
@@ -38,11 +38,25 @@ class PublicRemoteDataSourceImpl extends BaseRemoteService
     }
   }
 
+  @override
+  Future<BaseResponseModel> getInfoByKategoriId(String kategoriId) {
+    var endpoint =
+        '${DioProvider.baseUrl}api/getInfoByKatId?kategori_id=$kategoriId';
+    var dioCall = dioClient.get(endpoint);
+
+    try {
+      return callApiWithErrorParser(dioCall)
+          .then((response) => _parseResponse(response));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   ResCuaca _parseCuaca(Response response) {
     return ResCuaca.fromJson(response.data);
   }
 
-  BaseResponseModel _parseLandingPage(Response response) {
+  BaseResponseModel _parseResponse(Response response) {
     return convertToResponseModel(response);
   }
 

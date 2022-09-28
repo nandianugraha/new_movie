@@ -34,6 +34,7 @@ class SettingController extends BaseController {
     name.value = await Preferences.getNama();
     noHp.value = await Preferences.getTelp();
     userId.value = await Preferences.getUserId();
+    alamat.value = await Preferences.getAlamat();
     token.value = await Preferences.getToken();
     tokenKey.value = await Preferences.getTokenKey();
     kapalId.value = await Preferences.getKapalId();
@@ -63,6 +64,7 @@ class SettingController extends BaseController {
     Preferences.setNama(user2['nama_lengkap']);
     Preferences.setTelp(user2['no_hp']);
     Preferences.setAlamat(user2['alamat']);
+    getData();
   }
 
   void logout() {
@@ -79,7 +81,7 @@ class SettingController extends BaseController {
       isLoading.value = false;
 
       Preferences.getUserId().then((value) => print(value));
-      Get.offNamed(MyRouter.splashscreen);
+      Get.offAllNamed(MyRouter.splashscreen);
     });
   }
 }

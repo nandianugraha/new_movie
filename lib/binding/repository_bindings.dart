@@ -10,10 +10,12 @@ class RepositoryBindings implements Bindings {
     Get.lazyPut<PrivateRepository>(
       () => PrivateRepositoryImpl(),
       tag: (PrivateRepository).toString(),
+      fenix: true
     );
     Get.lazyPut<PublicRepository>(
       () => PublicRepositoryImpl(),
       tag: (PublicRepository).toString(),
+      fenix: true
     );
   }
 }

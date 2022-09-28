@@ -21,6 +21,7 @@ dependencies:
   location: ^4.4.0
   logger: ^1.1.0
   permission_handler: ^9.2.0
+  pinch_zoom: ^1.0.0
   retrofit: ^3.0.1+1
   shared_preferences: ^2.0.10
   shimmer: ^2.0.0

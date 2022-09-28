@@ -24,6 +24,8 @@ void main() {
     envConfig: devConfig,
   );
 
+  InitialBinding().dependencies();
+
   runApp(GetMaterialApp(
     theme: ThemeData(
         pageTransitionsTheme: const PageTransitionsTheme(builders: {

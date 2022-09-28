@@ -10,10 +10,12 @@ class RemoteSourceBindings implements Bindings {
     Get.lazyPut<PublicRemoteDataSource>(
       () => PublicRemoteDataSourceImpl(),
       tag: (PublicRemoteDataSource).toString(),
+      fenix: true
     );
     Get.lazyPut<PrivateRemoteDataSource>(
       () => PrivateRemoteDataSourceImpl(),
       tag: (PrivateRemoteDataSource).toString(),
+      fenix: true
     );
   }
 }

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_movie_flutter/r.dart';
 import 'package:new_movie_flutter/screen/auth/login/login_view.dart';
+import 'package:new_movie_flutter/screen/auth/new_auth_controller.dart';
 import 'package:new_movie_flutter/screen/auth/register/register_view.dart';
-import 'package:new_movie_flutter/splash_controller.dart';
 import 'package:new_movie_flutter/util/constant.dart';
 
-class SplashPage extends GetView<SplashController> {
-  const SplashPage({Key? key}) : super(key: key);
+class NewAuthPage extends GetView<NewAuthController> {
+  const NewAuthPage({Key? key}) : super(key: key);
 
   Widget build(BuildContext context) {
     void _loginSheet(context) {
@@ -47,29 +47,26 @@ class SplashPage extends GetView<SplashController> {
                         image: AssetImage(R.images_splashscreen),
                         fit: BoxFit.fill))),
             Container(
-              margin: const EdgeInsets.fromLTRB(20, 0, 20, 50),
-              child: controller.isLoading == true
-                  ? const Center(child: CircularProgressIndicator())
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        CustomButton(
-                          label: "MASUK",
-                          primaryColor: Colors.white,
-                          secondaryColor: Colors.black,
-                          onPressed: () => _loginSheet(context),
-                        ),
-                        const SizedBox(height: 20),
-                        CustomButton(
-                          label: "DAFTAR",
-                          primaryColor: Colors.transparent,
-                          secondaryColor: Colors.white,
-                          onPressed: () => _registerSheet(context),
-                        ),
-                      ],
+                margin: const EdgeInsets.fromLTRB(20, 0, 20, 50),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    CustomButton(
+                      label: "MASUK",
+                      primaryColor: Colors.white,
+                      secondaryColor: Colors.black,
+                      onPressed: () => _loginSheet(context),
                     ),
-            ),
+                    const SizedBox(height: 20),
+                    CustomButton(
+                      label: "DAFTAR",
+                      primaryColor: Colors.transparent,
+                      secondaryColor: Colors.white,
+                      onPressed: () => _registerSheet(context),
+                    ),
+                  ],
+                )),
           ]);
         }));
   }

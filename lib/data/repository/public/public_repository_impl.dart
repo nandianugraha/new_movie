@@ -17,7 +17,11 @@ class PublicRepositoryImpl implements PublicRepository {
 
   @override
   Future<ResCuaca> getCuaca() {
-    // TODO: implement getCuaca
     return _remoteSource.getCuaca();
+  }
+
+  @override
+  Future<BaseResponseModel> getInfoByKategoriId(String kategoriId) {
+    return _remoteSource.getInfoByKategoriId(kategoriId);
   }
 }
